@@ -1,0 +1,28 @@
+{
+  "name": "slidechat",
+  "version": "0.0.1",
+  "description": "slide app with chat",
+  "main": "index.js",
+  "repository": "https://github.com/telumo/slidechat.git",
+  "author": "telumo <drumscohika@gmail.com>",
+  "license": "MIT",
+  "scripts": {
+    "build": "webpack",
+    "start": "webpack-dev-server",
+    "test": "elm-test"
+  },
+  "devDependencies": {
+    "css-loader": "^3.4.2",
+    "elm": "^0.19.1-3",
+    "elm-test": "^0.19.1-revision2",
+    "elm-webpack-loader": "^6.0.1",
+    "html-webpack-plugin": "^3.2.0",
+    "node-sass": "^4.13.1",
+    "sass-loader": "^8.0.2",
+    "style-loader": "^1.1.3",
+    "url-loader": "^3.0.0",
+    "webpack": "^4.41.6",
+    "webpack-cli": "^3.3.11",
+    "webpack-dev-server": "^3.10.3"
+  }
+}
