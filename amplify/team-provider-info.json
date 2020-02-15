@@ -1,0 +1,15 @@
+{
+    "prod": {
+        "awscloudformation": {
+            "AuthRoleName": "amplify-slidechat-prod-163404-authRole",
+            "UnauthRoleArn": "arn:aws:iam::315699928979:role/amplify-slidechat-prod-163404-unauthRole",
+            "AuthRoleArn": "arn:aws:iam::315699928979:role/amplify-slidechat-prod-163404-authRole",
+            "Region": "ap-northeast-1",
+            "DeploymentBucketName": "amplify-slidechat-prod-163404-deployment",
+            "UnauthRoleName": "amplify-slidechat-prod-163404-unauthRole",
+            "StackName": "amplify-slidechat-prod-163404",
+            "StackId": "arn:aws:cloudformation:ap-northeast-1:315699928979:stack/amplify-slidechat-prod-163404/8bb75160-4fc5-11ea-bbaa-060a55bcd9e4",
+            "AmplifyAppId": "d1mlsuaba6n7io"
+        }
+    }
+}
