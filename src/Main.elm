@@ -1,42 +1,65 @@
 module Main exposing (main)
 
 import Browser
-import Html exposing (Html)
--- import Html.Attributes exposing ()
-import Html.Events as Events
+import Browser.Navigation as Nav
+import Html exposing (..)
+import Html.Attributes exposing (..)
+import Url
+
 
 type alias Model =
-    { count : Int
+    { key : Nav.Key
+    , url : Url.Url
     }
 
 
-init : flags -> ( Model, Cmd Msg )
-init _ =
-    ( { count = 0 }, Cmd.none )
+init : () -> Url.Url -> Nav.Key -> ( Model, Cmd Msg )
+init flags url key =
+    ( Model key url, Cmd.none )
 
 
 type Msg
-    = Increment
-    | Decrement
+    = LinkClicked Browser.UrlRequest
+    | UrlChanged Url.Url
 
 
-view : Model -> Html Msg
+view : Model -> Browser.Document Msg
 view model =
-    Html.div []
-        [ Html.button [ Events.onClick Increment ] [ Html.text "カウントアップ"]
-        , Html.div [ ] [ Html.text <| String.fromInt model.count ]
-        , Html.button [ Events.onClick Decrement ] [ Html.text "カウントダウン"]
+    { title = "URL Interceptor"
+    , body =
+        [ text "The current URL is: "
+        , b [] [ text (Url.toString model.url) ]
+        , ul []
+            [ viewLink "/home"
+            , viewLink "/profile"
+            , viewLink "/reviews/the-century-of-the-self"
+            , viewLink "/reviews/public-opinion"
+            , viewLink "/reviews/shah-of-shahs"
+            ]
         ]
+    }
+
+
+viewLink : String -> Html msg
+viewLink path =
+    li [] [ a [ href path ] [ text path ] ]
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
-        Increment ->
-            ( { model | count = model.count + 1 }, Cmd.none )
+        LinkClicked urlRequest ->
+            case urlRequest of
+                Browser.Internal url ->
+                    ( model, Nav.pushUrl model.key (Url.toString url) )
 
-        Decrement ->
-            ( { model | count = model.count - 1 }, Cmd.none )
+                Browser.External href ->
+                    ( model, Nav.load href )
+
+        UrlChanged url ->
+            ( { model | url = url }
+            , Cmd.none
+            )
 
 
 subscriptions : Model -> Sub Msg
@@ -46,9 +69,11 @@ subscriptions _ =
 
 main : Program () Model Msg
 main =
-    Browser.element
+    Browser.application
         { init = init
         , view = view
         , update = update
         , subscriptions = subscriptions
+        , onUrlRequest = LinkClicked
+        , onUrlChange = UrlChanged
         }
