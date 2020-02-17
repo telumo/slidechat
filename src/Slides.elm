@@ -55,7 +55,13 @@ import Url exposing (Url)
 port sendMessage : String -> Cmd msg
 
 
-port catchMessage : (String -> msg) -> Sub msg
+type alias CatchedData =
+    { text: String
+    , command: String
+    , random: Int 
+    }
+
+port catchMessage : ( CatchedData -> msg) -> Sub msg
 
 
 
@@ -106,7 +112,7 @@ type Msg
     | OnClickLink Browser.UrlRequest
     | OnSend
     | ChangeText String
-    | CatchMessage String
+    | CatchMessage CatchedData
     | Tick Time.Posix
 
 
@@ -123,6 +129,7 @@ type alias Catched =
     { text : String
     , currentPosix : Time.Posix
     , initialPosix : Time.Posix
+    , random : Int
     }
 
 
@@ -501,8 +508,8 @@ update options msg (Model oldModel) =
             ChangeText string ->
                 ( { oldModel | currentText = string }, Cmd.none )
 
-            CatchMessage string ->
-                ( { oldModel | catched = oldModel.catched ++ [ { text = string, currentPosix = oldModel.time, initialPosix = oldModel.time } ] }, Cmd.none )
+            CatchMessage catchedData ->
+                ( { oldModel | catched = oldModel.catched ++ [ { text = catchedData.text, currentPosix = oldModel.time, initialPosix = oldModel.time, random = catchedData.random } ] }, Cmd.none )
 
             Tick newTime ->
                 let
@@ -748,33 +755,10 @@ viewComment catched =
         percent =
             100 - difSec * 10
         
-        message = 
-            case List.head (String.split "," catched.text) of
-                Just mes -> 
-                    mes
-                Nothing ->
-                    ""
+        message = catched.text
 
-        maybeHeightList =
-            case List.tail (String.split "," catched.text) of
-                Just pos -> 
-                    pos
-                Nothing ->
-                    ["50"]
+        height = catched.random
         
-        maybeHeight = 
-            case List.head maybeHeightList of
-                Just pos ->
-                    pos
-                Nothing ->
-                    "50"
-        
-        height =
-            case String.toInt maybeHeight of
-                Just pos ->
-                    pos
-                Nothing ->
-                    50
     in
     Html.div
         [ css

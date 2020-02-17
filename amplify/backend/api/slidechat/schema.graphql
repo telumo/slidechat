@@ -1,5 +1,7 @@
 type Comment @model {
   id: ID!
   text: String!
+  command: String
+  random: Int
   commentedAt: AWSDateTime
 }

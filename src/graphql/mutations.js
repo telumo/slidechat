@@ -8,6 +8,8 @@ export const createComment = `mutation CreateComment(
   createComment(input: $input, condition: $condition) {
     id
     text
+    command
+    random
     commentedAt
   }
 }
@@ -19,6 +21,8 @@ export const updateComment = `mutation UpdateComment(
   updateComment(input: $input, condition: $condition) {
     id
     text
+    command
+    random
     commentedAt
   }
 }
@@ -30,6 +34,8 @@ export const deleteComment = `mutation DeleteComment(
   deleteComment(input: $input, condition: $condition) {
     id
     text
+    command
+    random
     commentedAt
   }
 }

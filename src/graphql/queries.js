@@ -5,6 +5,8 @@ export const getComment = `query GetComment($id: ID!) {
   getComment(id: $id) {
     id
     text
+    command
+    random
     commentedAt
   }
 }
@@ -18,6 +20,8 @@ export const listComments = `query ListComments(
     items {
       id
       text
+      command
+      random
       commentedAt
     }
     nextToken
